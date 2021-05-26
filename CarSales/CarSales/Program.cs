@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using Telegram.Bot;
 using Telegram.Bot.Args;
 using Telegram.Bot.Types.ReplyMarkups;
-using CarSales.Parser;
 
 namespace CarSales
 {
@@ -38,7 +37,7 @@ namespace CarSales
                             for (int i = 0; i < 10; i++)
                             {
                                 img = urlArr[i];
-                                await client.SendTextMessageAsync(msg.Chat.Id, img, replyMarkup: GetButtons());
+                                await client.SendPhotoAsync(msg.Chat.Id, photo: img, replyMarkup: GetButtons());
                             }
                             break;
                         case "Mercedes-Benz":

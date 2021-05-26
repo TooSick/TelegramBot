@@ -9,7 +9,7 @@ namespace CarSales.Parser
     {
         private static WebClient client = new WebClient();
         private static String adres;
-        private static String regexImg = @"data-src=""(https://.+\.jpeg)""";        //@"img alt="".+"" .+ src=""(.*?)""";
+        private static String regexImg = @"(?<=data-src="")(.*?\.jpeg)";                        
         private static String regexTxt;
         private static String[] regex = new String[10];
 
