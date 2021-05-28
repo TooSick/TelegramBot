@@ -12,6 +12,8 @@ namespace CarSales
         private static TelegramBotClient client;
         private static String img;
         private static String[] urlArr = new String[10];
+        private static String href = "https://cars.av.by";
+        private static String[] hrefArr = new String[10];
 
         static void Main(string[] args)
         {
@@ -28,29 +30,51 @@ namespace CarSales
             if (msg.Text != null)
             {
                 Console.WriteLine($"Пришло сообщение с текстом: {msg.Text}");
-                if (msg.Text == "BMW" || msg.Text == "Mercedes-Benz" || msg.Text == "Audi" || msg.Text == "Porshe")
+                if (msg.Text == "BMW" || msg.Text == "Mercedes-Benz" || msg.Text == "Audi" || msg.Text == "Porsche")
                 {
                     switch (msg.Text)
                     {
                         case "BMW":
-                            urlArr = CarSales.Parser.Parser.StartPars("BMW");
+                            urlArr = CarSales.Parser.Parser.ParsImg("BMW");
+                            hrefArr = CarSales.Parser.Parser.ParsHref("BMW");
+                            for (int i = 0; i < 10; i++)
+                            {
+                                img = urlArr[i];
+                                href += hrefArr[i];
+                                await client.SendPhotoAsync(msg.Chat.Id, photo: img, replyMarkup: GetButtons());
+                                await client.SendTextMessageAsync(msg.Chat.Id, href, replyMarkup: GetButtons());
+                                href = "https://cars.av.by";
+                            }
+                            break;
+                        case "Mercedes-Benz":
+                            urlArr = CarSales.Parser.Parser.ParsImg("Mercedes-Benz");
                             for (int i = 0; i < 10; i++)
                             {
                                 img = urlArr[i];
                                 await client.SendPhotoAsync(msg.Chat.Id, photo: img, replyMarkup: GetButtons());
                             }
                             break;
-                        case "Mercedes-Benz":
-                            break;
                         case "Audi":
+                            urlArr = CarSales.Parser.Parser.ParsImg("Audi");
+                            for (int i = 0; i < 10; i++)
+                            {
+                                img = urlArr[i];
+                                await client.SendPhotoAsync(msg.Chat.Id, photo: img, replyMarkup: GetButtons());
+                            }
                             break;
-                        case "Porshe":
+                        case "Porsche":
+                            urlArr = CarSales.Parser.Parser.ParsImg("Porsche");
+                            for (int i = 0; i < 10; i++)
+                            {
+                                img = urlArr[i];
+                                await client.SendPhotoAsync(msg.Chat.Id, photo: img, replyMarkup: GetButtons());
+                            }
                             break;
                     }
-                    await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyMarkup: GetButtons());
+                    //await client.SendTextMessageAsync(msg.Chat.Id, msg.Text, replyMarkup: GetButtons());
                 }
                 else
-                    await client.SendTextMessageAsync(msg.Chat.Id, "Такой команды не существует");
+                    await client.SendTextMessageAsync(msg.Chat.Id, "Такой команды не существует", replyMarkup: GetButtons());
 
             }
         }
@@ -62,7 +86,7 @@ namespace CarSales
                 Keyboard = new List<List<KeyboardButton>>
                 {
                     new List<KeyboardButton>{ new KeyboardButton { Text = "BMW" }, new KeyboardButton { Text = "Mercedes-Benz" } },
-                    new List<KeyboardButton>{ new KeyboardButton { Text = "Audi"}, new KeyboardButton { Text = "Porshe" } }
+                    new List<KeyboardButton>{ new KeyboardButton { Text = "Audi"}, new KeyboardButton { Text = "Porsche" } }
                 }
             };
         }
